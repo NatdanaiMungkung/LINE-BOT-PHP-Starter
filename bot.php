@@ -70,7 +70,7 @@ if (!is_null($events['events'])) {
 			
 			
 		}
-		else if ($event['type'] != 'unfollow' && $event['source']['type'] == 'user') {
+		else if ($event['type'] == 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
 			$file_contents = file_get_contents($file_path);
 			$file_contents = str_replace($userId . "\n","",$file_contents);
