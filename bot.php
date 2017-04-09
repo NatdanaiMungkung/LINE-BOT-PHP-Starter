@@ -17,7 +17,7 @@ if (!is_null($events['events'])) {
 			$isToWrite = true;
 			$file = fopen($file_path, 'r');
 			if ($file) {
-				while (($line = fgets($handle)) !== false) {
+				while (($line = fgets($file)) !== false) {
 					// process the line read.
 					if ($line == $userId) {
 						$isToWrite = false;
