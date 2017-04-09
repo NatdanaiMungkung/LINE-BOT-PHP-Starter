@@ -41,7 +41,7 @@ if (!is_null($events['events'])) {
 			// $replyToken = $event['replyToken'];
 
 			// build message to reply back
-			$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking'
+			$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
 			$messages = [
 			'type' => 'text',
 			'text' => $text
