@@ -19,7 +19,7 @@ if (!is_null($events['events'])) {
 			if ($file) {
 				while (($line = fgets($file)) !== false) {
 					// process the line read.
-					if ($line == $userId) {
+					if (strpos( $line, $userId ) !== false) {
 						$isToWrite = false;
 						break;
 					}
