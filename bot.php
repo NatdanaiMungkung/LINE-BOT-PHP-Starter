@@ -28,7 +28,7 @@ if (!is_null($events['events'])) {
 			if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
     //printf("Select returned %d rows.\n", $result->num_rows);
 			if ($result->num_rows == 0) {
-					if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "'") === TRUE) {
+					if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "')") === TRUE) {
 						$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
 						$messages = [
 						'type' => 'text',
