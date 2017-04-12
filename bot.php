@@ -25,10 +25,10 @@ if (!is_null($events['events'])) {
 			$userId = $event['source']['userId'];
 
 
-			if ($result = $mysqli->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
+			if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
     //printf("Select returned %d rows.\n", $result->num_rows);
 			if ($result->num_rows == 0) {
-					if ($mysqli->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "'") === TRUE) {
+					if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "'") === TRUE) {
 						$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
 						$messages = [
 						'type' => 'text',
@@ -72,7 +72,7 @@ if (!is_null($events['events'])) {
 		}
 		else if ($event['type'] == 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
-			$mysqli->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
+			$conn->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
 		}
 	}
 }
