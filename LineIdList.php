@@ -14,11 +14,11 @@ if ($conn->connect_errno) {
 }
 
 /* Create table doesn't return a resultset */
-$result = $conn->query("SELECT userId from LineID") {
+$result = $conn->query("SELECT userId from LineID");
   while ($row = $result->fetch_assoc()) {
       printf ("%s \n", $row["userId"]);
   }
-}
+
 
 printf("Hello World.\n");
 ?>
