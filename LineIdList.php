@@ -15,10 +15,11 @@ if ($conn->connect_errno) {
 
 /* Create table doesn't return a resultset */
 $result = $conn->query("SELECT userId from LineID");
+$a=array();
   while ($row = $result->fetch_assoc()) {
-      printf ("%s \n", $row["userId"]);
+      //printf ("%s \n", $row["userId"]);
+      array_push($a,$row["userId"]);
   }
+echo  (json_encode($a));
 
-
-printf("Hello World.\n");
 ?>
