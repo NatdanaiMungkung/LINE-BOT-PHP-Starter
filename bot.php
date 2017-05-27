@@ -23,42 +23,77 @@ if (!is_null($events['events'])) {
 		// Write new only if not unfollow type
 		if ($event['type'] != 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
-
-
-			if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
-    //printf("Select returned %d rows.\n", $result->num_rows);
-			if ($result->num_rows == 0) {
-					if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "')") === TRUE) {
-						$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
-						$messages = [
-						'type' => 'text',
-						'text' => $text
-						];
-
-						// if ($event['message']['type'] == 'text') {
-							// // Make a POST Request to Messaging API to reply to sender
-							$url = 'https://api.line.me/v2/bot/message/push';
-							$data = [
-							'to' => $userId,
-							'messages' => [$messages],
+			
+			if ($event['type'] == 'message' && $event['message']['text'] == "Internal") {
+				if ($result = $conn->query("SELECT userId FROM LineIDInternal WHERE userId = '" . $userId . "'")) {
+					if ($result->num_rows == 0) {
+						if ($conn->query("INSERT INTO LineIDInternal (userId) VALUES ('" . $userId . "')") === TRUE) {
+							$text = 'ขอบคุณครับ เราได้แอดท่านใน List internal แล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
+							$messages = [
+							'type' => 'text',
+							'text' => $text
 							];
-							$post = json_encode($data);
-							$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 
-							$ch = curl_init($url);
-							curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-							curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-							curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-							$result = curl_exec($ch);
-							curl_close($ch);
+							// if ($event['message']['type'] == 'text') {
+								// // Make a POST Request to Messaging API to reply to sender
+								$url = 'https://api.line.me/v2/bot/message/push';
+								$data = [
+								'to' => $userId,
+								'messages' => [$messages],
+								];
+								$post = json_encode($data);
+								$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+								$ch = curl_init($url);
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+								curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+								$result = curl_exec($ch);
+								curl_close($ch);
+						}
+
 					}
+				}
+			}
+			else {
+				if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
+    //printf("Select returned %d rows.\n", $result->num_rows);
+					if ($result->num_rows == 0) {
+						if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "')") === TRUE) {
+							$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
+							$messages = [
+							'type' => 'text',
+							'text' => $text
+							];
 
+							// if ($event['message']['type'] == 'text') {
+								// // Make a POST Request to Messaging API to reply to sender
+								$url = 'https://api.line.me/v2/bot/message/push';
+								$data = [
+								'to' => $userId,
+								'messages' => [$messages],
+								];
+								$post = json_encode($data);
+								$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+								$ch = curl_init($url);
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+								curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+								$result = curl_exec($ch);
+								curl_close($ch);
+						}
+
+					}
+				}
 			}
     /* free result set */
     		$result->close();
-			}
+		}
 			// Get text sent
 			//$text = $event['message']['text'];
 			// // Get replyToken
@@ -69,7 +104,7 @@ if (!is_null($events['events'])) {
 
 				// echo $result . "\r\n";
 			// }
-		}
+	}
 		else if ($event['type'] == 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
 			$conn->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
