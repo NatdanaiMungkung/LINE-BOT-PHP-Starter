@@ -23,7 +23,7 @@ if (!is_null($events['events'])) {
 		// Write new only if not unfollow type
 		if ($event['type'] != 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
-			
+			error_log($event);
 			if ($event['type'] == 'message' && $event['message']['text'] == "Internal") {
 				if ($result = $conn->query("SELECT userId FROM LineIDInternal WHERE userId = '" . $userId . "'")) {
 					if ($result->num_rows == 0) {
