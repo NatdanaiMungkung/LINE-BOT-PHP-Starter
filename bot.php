@@ -104,7 +104,7 @@ if (!is_null($events['events'])) {
 
 				// echo $result . "\r\n";
 			// }
-	}
+	
 		else if ($event['type'] == 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
 			$conn->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
