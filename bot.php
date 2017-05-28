@@ -60,7 +60,7 @@ if (!is_null($events['events'])) {
 			else if ($event['type'] == 'message' && $event['message']['text'] == "Internal -U") {
 				$userId = $event['source']['userId'];
 				$conn->query("DELETE FROM LineIDInternal WHERE userId = '" . $userId . "'");
-				$text = 'เราได้ลบท่านออกจากลิสต์ Internal แล้ว หากต้องการแอดกลับ ให้พิมพ์คำว่า Internal ครับ';
+				$text = 'เราได้ลบท่านออกจากกลุ่มInternal แล้ว หากต้องการแอดกลับ ให้พิมพ์คำว่า Internal ครับ';
 							$messages = [
 							'type' => 'text',
 							'text' => $text
@@ -118,7 +118,7 @@ if (!is_null($events['events'])) {
     //printf("Select returned %d rows.\n", $result->num_rows);
 					if ($result->num_rows == 0) {
 						if ($conn->query("INSERT INTO LineID (userId) VALUES ('" . $userId . "')") === TRUE) {
-							$text = 'ขอบคุณครับ เราได้แอดท่านแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
+							$text = 'ขอบคุณครับ เราได้แอดท่านในกลุ่มSCGLแล้ว เพื่อรับแจ้งเตือนระบบ Truck Tracking';
 							$messages = [
 							'type' => 'text',
 							'text' => $text
