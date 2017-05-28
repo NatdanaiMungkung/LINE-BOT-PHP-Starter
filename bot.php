@@ -60,8 +60,60 @@ if (!is_null($events['events'])) {
 			else if ($event['type'] == 'message' && $event['message']['text'] == "Internal -U") {
 				$userId = $event['source']['userId'];
 				$conn->query("DELETE FROM LineIDInternal WHERE userId = '" . $userId . "'");
+				$text = 'เราได้ลบท่านออกจากลิสต์ Internal แล้ว หากต้องการแอดกลับ ให้พิมพ์คำว่า Internal ครับ';
+							$messages = [
+							'type' => 'text',
+							'text' => $text
+							];
+
+							// if ($event['message']['type'] == 'text') {
+								// // Make a POST Request to Messaging API to reply to sender
+								$url = 'https://api.line.me/v2/bot/message/push';
+								$data = [
+								'to' => $userId,
+								'messages' => [$messages],
+								];
+								$post = json_encode($data);
+								$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+								$ch = curl_init($url);
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+								curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+								$result = curl_exec($ch);
+								curl_close($ch);
 			}
-			else {
+			else if ($event['type'] == 'message' && $event['message']['text'] == "SCGL -U") {
+				$userId = $event['source']['userId'];
+				$conn->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
+				$text = 'เราได้ลบท่านออกจากลิสต์ SCGL แล้ว หากต้องการแอดกลับ ให้พิมพ์คำว่า SCGL ครับ';
+							$messages = [
+							'type' => 'text',
+							'text' => $text
+							];
+
+							// if ($event['message']['type'] == 'text') {
+								// // Make a POST Request to Messaging API to reply to sender
+								$url = 'https://api.line.me/v2/bot/message/push';
+								$data = [
+								'to' => $userId,
+								'messages' => [$messages],
+								];
+								$post = json_encode($data);
+								$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+								$ch = curl_init($url);
+								curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+								curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+								curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+								$result = curl_exec($ch);
+								curl_close($ch);
+			}
+			else if ($event['type'] == 'message' && $event['message']['text'] == "SCGL")  {
 				if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
     //printf("Select returned %d rows.\n", $result->num_rows);
 					if ($result->num_rows == 0) {
@@ -112,6 +164,7 @@ if (!is_null($events['events'])) {
 		else if ($event['type'] == 'unfollow' && $event['source']['type'] == 'user') {
 			$userId = $event['source']['userId'];
 			$conn->query("DELETE FROM LineID WHERE userId = '" . $userId . "'");
+			$conn->query("DELETE FROM LineIDInternal WHERE userId = '" . $userId . "'");
 		}
 	}
 }
