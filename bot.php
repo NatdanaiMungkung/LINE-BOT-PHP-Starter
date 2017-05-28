@@ -57,6 +57,10 @@ if (!is_null($events['events'])) {
 					}
 				}
 			}
+			else if ($event['type'] == 'message' && $event['message']['text'] == "Internal -U") {
+				$userId = $event['source']['userId'];
+				$conn->query("DELETE FROM LineIDInternal WHERE userId = '" . $userId . "'");
+			}
 			else {
 				if ($result = $conn->query("SELECT userId FROM LineID WHERE userId = '" . $userId . "'")) {
     //printf("Select returned %d rows.\n", $result->num_rows);
